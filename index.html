@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOJA VPN WORD NET</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+            position: relative;
+        }
+        .container {
+            max-width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        .subscription {
+            width: 200px; /* Largura fixa para todas as janelas */
+            height: 450px; /* Altura fixa para todas as janelas */
+            margin: 20px; /* Margem entre as janelas */
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #fff;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+            /* Efeito de luz animado */
+            animation: lightEffect 5s linear infinite;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .subscription h2 {
+            color: #333;
+            margin-top: 10px;
+        }
+        .subscription p {
+            color: #666;
+        }
+        .subscription .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6600;
+            margin-bottom: 10px;
+        }
+        .subscription .icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 50%;
+        }
+        .buy-button {
+            background-color: #25c700;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            width: 100%; /* Botão ocupa toda a largura */
+        }
+        .buy-button:hover {
+            background-color: #25c700;
+        }
+
+        .scroll-message {
+            width: 100%;
+            text-align: center;
+            background-color: #ff6600;
+            color: #fff;
+            padding: 10px 0;
+            font-size: 18px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            animation: slideMessage 3s ease-in-out infinite;
+        }
+
+        @keyframes slideMessage {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .chat-icon {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            position: relative;
+            /* Adicionando o efeito de luz */
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
+            animation: borderLightEffect 2s linear infinite;
+        }
+
+        @keyframes borderLightEffect {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 165, 0, 0.5), 0 0 20px rgba(255, 165, 0, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255, 165, 0, 0.5), 0 0 40px rgba(255, 165, 0, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(255, 165, 0, 0.5), 0 0 20px rgba(255, 165, 0, 0.5);
+            }
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .close-button {
+            background-color: #ed0e0e;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .close-button:hover {
+            background-color: #ff6600;
+        }
+
+        /* Estilos específicos para telas menores que 768px (dispositivos móveis) */
+        @media only screen and (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+        }
+
+        /* Animação do efeito de luz */
+        @keyframes lightEffect {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px 4px rgba(255, 102, 0, 0.5); /* Cor laranja */
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Aviso de deslizar a página -->
+    <div class="scroll-message">Deslize a página, veja os preços da internet e assinatura original Streaming..</div>
+
+    <!-- Ícone do chat -->
+    <div class="chat-icon" onclick="openModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
+            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z"/>
+        </svg>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="subscriptionModal">
+        <div class="modal-content">
+            <h2>AVISO</h2>
+            <p>Procurando assinatura original? Precinho que cabe em seu bolso brasileiro.
+Temos tela, tv, conta, convite.
+“Tela tv ativação via código apenas para tv não envio e-mail e nem senha”
+“conta ideal para todos da família, amigo, colega, revender, etc. envio e-mail e senha”
+“convite eu envio para o seu e-mail particular ou qualquer um que você tenha se não estiver envio um” 
+
+comprando mais de 5 assinatura tem descontão.</p>
+            <button class="close-button" onclick="closeModal()">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Lista de Assinaturas -->
+    <div class="container" style="padding-top: 50px;"> <!-- Adicionado padding-top para evitar sobreposição -->
+        <!-- Assinatura Internet ilimitada -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/StkLk.jpg" alt="Internet ilimitada">
+            <h2>Internet ilimitada 1 Login Android ou iPhone</h2>
+            <p>Tenha acesso ha internet ilimitada, também pode compartilhar com PC, notebook, TV, etc.".</p>
+            <div class="button-container">
+                <p class="price">R$ 10,00/mês</p>
+                <!-- Substitua 'seu_numerodetelefone' pelo seu número de telefone -->
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20do%20Globo%20Play">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Internet ilimitada -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/StkLk.jpg" alt="Internet ilimitada">
+            <h2>Internet ilimitada 2 Login Android ou iPhone</h2>
+            <p>Tenha acesso ha internet ilimitada, também pode compartilhar com PC, notebook, TV, etc.".</p>
+            <div class="button-container">
+                <p class="price">R$ 15,00/mês</p>
+                <!-- Substitua 'seu_numerodetelefone' pelo seu número de telefone -->
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20do%20Globo%20Play%20%2B%20Telecine">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Internet ilimitada -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/StkLk.jpg" alt="Internet ilimitada">
+            <h2>Internet ilimitada 4 Login Android ou iPhone</h2>
+            <p>Tenha acesso ha internet ilimitada, também pode compartilhar com PC, notebook, TV, etc.".</p>
+            <div class="button-container">
+                <p class="price">R$ 20,00/mês</p>
+                <!-- Substitua 'seu_numerodetelefone' pelo seu número de telefone -->
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20do%20Globo%20Play%20%2B%20Canais%20%2B%20Telecine">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Globo Play -->
+        <div class="subscription">
+            <img class="icon" src="https://s12.gifyu.com/images/SZ1wY.png" alt="Globo Play">
+            <h2>Globo Play</h2>
+            <p>Acesso a conteúdos exclusivos da Globo "ativação via convite".</p>
+            <div class="button-container">
+                <p class="price">R$ 7,00/mês</p>
+                <!-- Substitua 'seu_numerodetelefone' pelo seu número de telefone -->
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20do%20Globo%20Play">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Globo Play + Telecine -->
+        <div class="subscription">
+            <img class="icon" src="https://s12.gifyu.com/images/SZ1wY.png" alt="Globo Play + Telecine">
+            <h2>Globo Play + Telecine</h2>
+            <p>Acesso à Globo Play e aos filmes do Telecine "ativação via convite".</p>
+            <div class="button-container">
+                <p class="price">R$ 10,00/mês</p>
+                <!-- Substitua 'seu_numerodetelefone' pelo seu número de telefone -->
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20do%20Globo%20Play%20%2B%20Telecine">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Globo Play + Canais + Telecine -->
+        <div class="subscription">
+            <img class="icon" src="https://s12.gifyu.com/images/SZ1wY.png" alt="Globo Play + Canais + Telecine">
+            <h2>Globo Play + Canais + Telecine</h2>
+            <p>Acesso à Globo Play e aos canais da TV Globo, além dos filmes do Telecine "ativação via convite".</p>
+            <div class="button-container">
+                <p class="price">R$ 15,00/mês</p>
+                <!-- Substitua 'seu_numerodetelefone' pelo seu número de telefone -->
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20do%20Globo%20Play%20%2B%20Canais%20%2B%20Telecine">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Sky+ -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/StwO2.webp" alt="Sky+">
+            <h2>Sky+</h2>
+            <p>Acesso aos canais Sky+ "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 10,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Sky+">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Sky + Première -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/StwO2.webp" alt="Sky + Première">
+            <h2>Sky + Première</h2>
+            <p>Acesso aos canais Sky e ao conteúdo exclusivo do Première "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 15,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Sky%20%2B%20Première">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Zapping -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/StwOL.webp" alt="Zapping">
+            <h2>Zapping</h2>
+            <p>Acesso aos canais e conteúdos do Zapping "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 7,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Zapping">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Brasileirinhas -->
+        <div class="subscription">
+            <img class="icon" src="https://s12.gifyu.com/images/StwOs.webp" alt="Brasileirinhas">
+            <h2>Brasileirinhas</h2>
+            <p>Acesso a conteúdos exclusivos da Brasileirinhas "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 10,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Brasileirinhas">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Xbox Pass PC -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/StwOJ.png" alt="Xbox Pass PC">
+            <h2>Xbox Pass PC</h2>
+            <p>Acesso a jogos exclusivos do Xbox Pass para PC ativação codigo.</p>
+            <div class="button-container">
+                <p class="price">R$ 5,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Xbox%20Pass%20PC">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Apple TV -->
+        <div class="subscription">
+            <img class="icon" src="https://s12.gifyu.com/images/Stwy8.png" alt="Apple TV">
+            <h2>Apple TV</h2>
+            <p>Acesso a conteúdos exclusivos da Apple TV "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 8,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Apple%20TV">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Disney+ Star+ Espn Premium -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/Stwy9.jpg" alt="Disney+ Star+ Espn Premium">
+            <h2>Disney+ Star+ ESPN Premium</h2>
+            <p>Acesso aos conteúdos exclusivos do Disney+, Star+ e ESPN Premium "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 15,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Disney%2B%20Star%2B%20ESPN%20Premium">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Prime Vídeo -->
+        <div class="subscription">
+            <img class="icon" src="https://s12.gifyu.com/images/Stwyd.jpg" alt="Prime Vídeo">
+            <h2>Prime Vídeo</h2>
+            <p>Acesso aos conteúdos exclusivos do Prime Vídeo "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 8,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Prime%20Vídeo">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Prime Vídeo + Première -->
+        <div class="subscription">
+            <img class="icon" src="https://s12.gifyu.com/images/Stwyd.jpg" alt="Prime Vídeo + Première">
+            <h2>Prime Vídeo + Première</h2>
+            <p>Acesso aos conteúdos exclusivos do Prime Vídeo e Première "tv ativação codigo".</p>
+            <div class="button-container">
+                <p class="price">R$ 10,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Prime%20Vídeo%20%2B%20Première">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Max -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/Stwyf.png" alt="Max">
+            <h2>Max</h2>
+            <p>Acesso aos conteúdos exclusivos do Max "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 10,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Max">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Uou Play + Canais -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/Stwy5.jpg" alt="Uou Play + Canais">
+            <h2>Uou Play + Canais</h2>
+            <p>Acesso aos conteúdos exclusivos do Uou Play e canais adicionais "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 10,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Uou%20Play%20%2B%20Canais">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Mubi Filmes -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/StwyO.webp" alt="Mubi Filmes">
+            <h2>Mubi Filmes</h2>
+            <p>Acesso aos conteúdos exclusivos do Mubi Filmes "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 10,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Mubi%20Filmes">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Paramount -->
+        <div class="subscription">
+            <img class="icon" src="https://s12.gifyu.com/images/Stwyy.png" alt="Paramount">
+            <h2>Paramount</h2>
+            <p>Acesso aos conteúdos exclusivos da Paramount "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 10,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Paramount">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Crunchyroll -->
+        <div class="subscription">
+            <img class="icon" src="https://s12.gifyu.com/images/Stwye.png" alt="Crunchyroll">
+            <h2>Crunchyroll</h2>
+            <p>Acesso aos conteúdos exclusivos do Crunchyroll "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 10,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Crunchyroll">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Play Plus -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/StwGM.jpg" alt="Play Plus">
+            <h2>Play Plus</h2>
+            <p>Acesso aos conteúdos exclusivos do Play Plus "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 5,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Play%20Plus">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura YouTube Premium -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/StwGx.webp" alt="YouTube Premium">
+            <h2>YouTube Premium</h2>
+            <p>Acesso ao conteúdo sem anúncios do YouTube Premium "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 3,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20YouTube%20Premium">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Spotify -->
+        <div class="subscription">
+            <img class="icon" src="https://s12.gifyu.com/images/StwJw.jpg" alt="Spotify">
+            <h2>Spotify</h2>
+            <p>Acesso ao conteúdo exclusivo do Spotify Premium "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 3,00/mês R$5,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Spotify">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Canva Pro -->
+        <div class="subscription">
+            <img class="icon" src="https://s12.gifyu.com/images/StwJv.png" alt="Canva Pro">
+            <h2>Canva Pro</h2>
+            <p>Acesso ao conteúdo exclusivo do Canva Pro "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 5,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Canva%20Pro">Compre Agora</a>
+            </div>
+        </div>
+
+        <!-- Assinatura Microsoft Office 365 -->
+        <div class="subscription">
+            <img class="icon" src="https://s10.gifyu.com/images/StwGg.png" alt="Microsoft Office 365">
+            <h2>Microsoft Office 365</h2>
+            <p>Acesso ao pacote completo do Microsoft Office 365 "conta".</p>
+            <div class="button-container">
+                <p class="price">R$ 5,00/mês</p>
+                <a class="buy-button" href="https://wa.me/message/GPIYPTNUMB55H1?text=Quero%20comprar%20a%20assinatura%20Microsoft%20Office%20365">Compre Agora</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function openModal() {
+            var modal = document.getElementById('subscriptionModal');
+            modal.style.display = 'flex'; // Mostra o modal alterando o estilo display para 'flex'
+        }
+
+        function closeModal() {
+            var modal = document.getElementById('subscriptionModal');
+            modal.style.display = 'none'; // Oculta o modal alterando o estilo display para 'none'
+        }
+    </script>
+</body>
+</html>
